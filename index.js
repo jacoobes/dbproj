@@ -67,10 +67,10 @@ if(action == "login") {
         .business_user
         .get_user_by_email(body.email);
 
-    const json = await fetch(base_link+'/business/'+business.value)
-    const acct = await fetch(base_link+'/account/login', { method: 'POST', body }).then(res=> res.json())
-
-    await prompt_found_business({ business: json, acct })
+//    const json = await fetch(base_link+'/business/'+business.value)
+//    const acct = await fetch(base_link+'/account/login', { method: 'POST', body }).then(res=> res.json())
+//
+//    await prompt_found_business({ business: json, acct })
 
 } else {
     const data = await prompts([{ 
