@@ -1,5 +1,4 @@
 import prompts from "prompts";
-import options from "./option.js";
 import { initiate } from "./db.js";
 
 console.log("Welcome. Please choose an option");
@@ -24,10 +23,9 @@ const { action } = await prompts(
   { onCancel: () => (console.log("Cancelled"), process.exit(0)) },
 );
 
-const database = await initiate();
-
+const database = await initiate("./database/main.db");
 if (action == "login") {
-  import("./login.js").then((module) => module.login(database, credentials));
+  import("./login.js").then((module) => module.login(database));
 } else {
-  import("./create.js").then((module) => module.create(database, credentials));
+  import("./create.js").then((module) => module.create(database));
 }

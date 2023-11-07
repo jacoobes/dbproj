@@ -28,18 +28,21 @@ async function prompt_found_business(businessResult) {
   );
 }
 
-export const login = async (database, credentials) => {
+export const login = async (database) => {
   const business = await prompts(
     {
-      type: "number",
-      name: "value",
-      message: "business id",
-      validate: Number.isInteger,
+      type: "autocomplete",
+      name: "business name",
+      message: "Find your business",
+      choices: (await database.business.get_all())
+        .map(data => ({ title: data.business_name, value: data.business_id }))
     },
     {
       onCancel: () => {
-        process.exit(0);
+          console.log('onCancel')
+        process.exit(1);
       },
+    
     },
   );
 

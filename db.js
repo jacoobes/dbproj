@@ -5,6 +5,7 @@ import LocationManager from "./location_manager.js";
 import Database from "better-sqlite3";
 import { SqliteDialect, Kysely } from "kysely";
 import { readFile } from "node:fs/promises";
+
 export const initiate = async (database_location) => {
   const __sqlitedb = new Database(database_location);
   const db = new Kysely({
