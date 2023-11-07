@@ -1,4 +1,16 @@
 export default (db) => ({
+  //Business {
+  //    business_id: number
+  //    business_name: string
+  //    brand: string
+  //    address: string
+  //    city: string
+  //    country: string
+  //    source_id: number
+  //    password: string;
+  //    faq_id: number | null
+  //    location_id: number
+  //}
   create: (bp) => {
     return db
       .insertInto("business")
@@ -6,6 +18,7 @@ export default (db) => ({
       .returningAll()
       .executeTakeFirst();
   },
+
   update: async (id, bp) => {
     return (
       db
