@@ -124,18 +124,23 @@ export const create = async (database) => {
         } break;
     }
 
-    
-    const result = {
-        //hardcoded TODO: FIX
-        business_id: 0,
-        email: data.email,
-        password: data.password,    
+
+    const businessUserObject = {
+      email: data.email,
+      password: data.password,
+      business_id:1 ,
+      business_user_id : 1
     };
-    console.log(result);
-
-//    database.business_user.create_business_user({
-//            
-//
-//    });
-
-}
+  
+    try {
+      // Insert the business user data into the business_user table
+      const businessUserCreated = await database.business_user.create_business_user(businessUserObject);
+  
+      console.log('Business User Object:', businessUserObject);
+      console.log('Business User Created:', businessUserCreated);
+      console.log('Business User ID:', businessUserCreated.business_user_id);
+    } catch (error) {
+      console.error('Error creating business user:', error);
+      process.exit(1);
+    }
+  };

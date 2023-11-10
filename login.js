@@ -73,10 +73,18 @@ export const login = async (database) => {
     business_id: business.value,
   };
 
-  const account = database.business_user.get_user_by_email(body.email);
+  console.log('Email entered:', body.email);
+  console.log('Password entered:', body.password);
 
-  //    const json = await fetch(base_link+'/business/'+business.value)
-  //    const acct = await fetch(base_link+'/account/login', { method: 'POST', body }).then(res=> res.json())
-  //
-  //    await prompt_found_business({ business: json, acct })
+  const account = await database.business_user.get_user_by_email(body.email);
+
+  console.log('Retrieved account:', account);
+
+  if (account && account.password === body.password) {
+    console.log('Login successful!');
+    await prompt_found_business({ business, acct: account });
+  } else {
+    console.error('Login failed. Please check your email and password.');
+    process.exit(1);
+  }
 };
