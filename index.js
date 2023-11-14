@@ -1,8 +1,17 @@
 import prompts from "prompts";
 import { initiate } from "./db.js";
 
-console.log("Welcome. Please choose an option");
-
+console.clear();
+console.log(`
+/$$          /$$$$$ /$$$$$$$  /$$$$$$$$ /$$   /$$ /$$   /$$
+| $$         |__  $$| $$__  $$|__  $$__/| $$  /$$/| $$  /$$/
+| $$            | $$| $$  \ $$   | $$   | $$ /$$/ | $$ /$$/ 
+| $$            | $$| $$$$$$$    | $$   | $$$$$/  | $$$$$/  
+| $$       /$$  | $$| $$__  $$   | $$   | $$  $$  | $$  $$  
+| $$      | $$  | $$| $$  \ $$    | $$   | $$\  $$  | $$\  $$ 
+| $$$$$$$$|  $$$$$$/| $$$$$$$/   | $$   | $$ \  $$ | $$ \  $$
+|________/ \______/ |_______/     |__/   |__/  \__/ |__/  \__/
+Business Management Services\n\n`.trim());
 //choose the action used
 const { action } = await prompts(
   {
@@ -24,6 +33,7 @@ const { action } = await prompts(
 );
 
 const database = await initiate("./database/main.db");
+
 if (action == "login") {
   import("./login.js").then((module) => module.login(database));
 } else {

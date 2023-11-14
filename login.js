@@ -39,7 +39,7 @@ export const login = async (database) => {
     },
     {
       onCancel: () => {
-          console.log('onCancel')
+        console.log('onCancel')
         process.exit(1);
       },
     
@@ -72,7 +72,6 @@ export const login = async (database) => {
     password: acct_prompt.password,
     business_id: business.value,
   };
-
   console.log('Email entered:', body.email);
   console.log('Password entered:', body.password);
 
