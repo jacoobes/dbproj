@@ -1,14 +1,20 @@
 import prompts from 'prompts'
+export {addCustomer}
+
 const addCustomerQuestions = [
     {
       type: 'text',
-      name: 'response_rate',
-      message: 'Enter response rate:',
+      name: 'Name',
+      message: 'Enter customer name:',
     },
     {
       type: 'text',
       name: 'join_date',
       message: 'Enter join date (YYYY-MM-DD):',
+
+      type: 'text',
+      name: 'phone_number',
+      message: 'Enter customer phone number:',
     },
   ];
   
@@ -21,7 +27,7 @@ const addCustomerQuestions = [
   ];
   
   // Function to add a customer to the database
-  const addCustomer = async () => {
+  const addCustomer = async (db, business) => {
     try {
       const customerData = await prompts(addCustomerQuestions);
       

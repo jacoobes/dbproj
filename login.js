@@ -8,7 +8,7 @@ async function prompt_found_business(businessResult) {
     message: "choice",
 
     choices: [
-      { title: "info", description: "option1 description", value: "1" },
+      { title: "Create Customer", description: "option1 description", value: "1" },
       {
         title: "view customers",
         description: "option1 description",
@@ -82,7 +82,7 @@ export const login = async (database) => {
 
   if (account && account.password === body.password) {
     console.log('Login successful!');
-    await prompt_found_business({ business, acct: account });
+    await prompt_found_business({ business, acct: account, database });
   } else {
     console.error('Login failed. Please check your email and password.');
     process.exit(1);

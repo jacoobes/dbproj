@@ -4,8 +4,9 @@
 CREATE TABLE IF NOT EXISTS customer (
   customer_id INTEGER PRIMARY KEY AUTOINCREMENT,
   business_id INTEGER REFERENCES business(business_id),
-  response_rate VARCHAR,
-  join_date VARCHAR
+  name VARCHAR,
+  join_date VARCHAR,
+  phone_number INTEGER
 );
 --DO NOT TOUCH THIS LINE
 CREATE TABLE IF NOT EXISTS location (
