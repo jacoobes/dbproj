@@ -25,6 +25,11 @@ const addCustomerQuestions = [
       message: 'Enter customer ID to remove:',
     },
   ];
+  const customerObject = {
+    name : response.name ,
+    join_date : response.join_date,
+    phone_number : response.phone_number,
+  }
   
   // Function to add a customer to the database
   const addCustomer = async (db, business) => {
@@ -50,7 +55,7 @@ const addCustomerQuestions = [
     } catch (error) {
       console.error('Error removing customer:', error);
     } finally {
-      db.close();
+      process.exit(1);
     }
   };
   
