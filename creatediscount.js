@@ -62,7 +62,7 @@ const updateDiscountQuestions = [
   };
 
 // Function to update a discount in the database
-  const removeDiscount = async () => {
+  const updateDiscount = async () => {
     try {
       const { discount_id } = await prompts(updateDiscountQuestions);
       
