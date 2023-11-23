@@ -11,6 +11,8 @@ const addCustomerQuestions = [
       type: 'text',
       name: 'phone_number',
       message: 'enter customer phone number:',
+    //https://stackoverflow.com/a/29767609/14709144
+      validate: input => (/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im).test(input)
     },
   ];
   
