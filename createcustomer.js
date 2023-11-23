@@ -72,31 +72,14 @@ const removeCustomer = async (db, business) => {
     }
 };
 
-const viewCustomersQuestions = [
-    {
-      type: 'select',
-      name: 'value',
-      message: 'Pick an action',
-      choices: [
-        { title: 'View all', description: 'This option has a description', value: 'all' },
-        { title: 'View one', value: 'one' },
-      ],
-    },
-
-];
-
 const viewCustomers = async (db, business) => {
-    const { value } = await prompts(viewCustomersQuestions);
-    if(value == "one") {
-        
-    } else {
-        const customers = await db.customer.get_all_from_business(business.business_id);
-        if(customers.length == 0 ){
-            console.log("No customers to show. Get busy");
-            return;
-        }
-        for(const customer of customers) {
-            console.log(JSON.stringify(customer, "business_id", 3));
-        }
+    const customers = await db.customer.get_all_from_business(business.business_id); 
+    if(customers.length == 0 ){
+        console.log("No customers to show. Get busy");
+        return;
     }
+    for(const customer of customers) {
+        console.log(JSON.stringify(customer, "business_id", 3));
+    }
+    
 }
