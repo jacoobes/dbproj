@@ -32,7 +32,7 @@ export const login = async (database) => {
   const business = await prompts(
     {
       type: "autocomplete",
-      name: "business name",
+      name: "business_name",
       message: "Find your business",
       choices: (await database.business.get_all())
         .map(data => ({ title: data.business_name, value: data.business_id }))
@@ -81,7 +81,8 @@ export const login = async (database) => {
 
   if (account && account.password === body.password) {
     console.log('Login successful!');
-    await prompt_found_business({ business, acct: account, database });
+    const selected_business = await database.business.get(business.business_name);
+    await prompt_found_business({ business: selected_business, acct: account, database });
   } else {
     console.error('Login failed. Please check your email and password.');
     process.exit(1);

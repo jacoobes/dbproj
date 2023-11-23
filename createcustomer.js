@@ -9,10 +9,6 @@ const addCustomerQuestions = [
     },
     {
       type: 'text',
-      name: 'join_date',
-      message: 'enter join date (yyyy-mm-dd):',
-
-      type: 'text',
       name: 'phone_number',
       message: 'enter customer phone number:',
     },
@@ -30,6 +26,18 @@ const removeCustomerQuestions = [
 const addCustomer = async (db, business) => {
     try {
         const customerData = await prompts(addCustomerQuestions);
+        //
+        // business_id INTEGER REFERENCES business(business_id),
+        // name VARCHAR,
+        // join_date VARCHAR,
+        // phone_number INTEGER
+
+        await db.customer.create({ 
+            name: customerData.name,
+            phone_number: customerData.phone_number,
+            join_date: new Date().toISOString(),
+            business_id: business.business_id
+        });
 
         console.log('Customer added successfully!');
     } catch (error) {
@@ -63,7 +71,7 @@ const viewCustomersQuestions = [
 
 ];
 const viewCustomers = async (db, business) => {
-    const { all } = await prompts(viewCustomersQuestions);
+    const answers = await prompts(viewCustomersQuestions);
     
     
 }

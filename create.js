@@ -116,13 +116,13 @@ export const create = async (database) => {
 
               const location_created = await database.location.create(locationObject);
               const business_created = await database.business.create(businessObject); 
-              console.log('Business Object:', businessObject);
+              console.log('Business Object:', business_created);
             const bu = {
                 business_id: business_created.business_id,
                 email: data.email,
                 password: data.password,    
             };
-            console.log(await database.business_user.get(1));
+            //console.log(await database.business_user.get(1));
             const user = await database.business_user.create_business_user(bu);
             console.log('Created user:', user)
             console.log('Now go login!');
