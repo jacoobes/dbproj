@@ -42,8 +42,9 @@ const updateDiscountQuestions = [
       console.log('Discount added successfully!');
     } catch (error) {
       console.error('Error adding discount:', error);
-    } finally {
       db.close();
+    } finally {
+      
     }
   };
   
@@ -56,8 +57,8 @@ const updateDiscountQuestions = [
       console.log('Discount removed successfully!');
     } catch (error) {
       console.error('Error removing discount:', error);
-    } finally {
       db.close();
+    } finally {
     }
   };
 
@@ -70,8 +71,8 @@ const updateDiscountQuestions = [
       console.log('Discount updated successfully!');
     } catch (error) {
       console.error('Error updating discount:', error);
-    } finally {
       db.close();
+    } finally {
     }
   };
   
