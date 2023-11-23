@@ -1,5 +1,5 @@
 import prompts from 'prompts'
-export {addCustomer, removeCustomer, viewCustomers}
+export { main as manageCustomers }
 
 const addCustomerQuestions = [
     {
@@ -85,3 +85,26 @@ const viewCustomers = async (db, business) => {
     }
     
 }
+
+
+const main = async (database, business) => {
+    const { choice } = await prompts({
+      type: 'select',
+      name: 'choice',
+      message: 'Choose an option:',
+      choices: [
+        { title: 'Add Customer', value: 'add' },
+        { title: 'Remove Customer', value: 'remove' },
+        { title: 'View Customers', value: 'view' }
+      ],
+    });
+  
+    if (choice === 'add') {
+      await addCustomer(database, business);
+    } else if (choice === 'remove') {
+      await removeCustomer(database, business);
+    } else if (choice === 'view') {
+
+    }
+
+};

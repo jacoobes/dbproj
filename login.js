@@ -8,13 +8,9 @@ async function prompt_found_business(businessResult) {
     message: "choice",
 
     choices: [
-      { title: "Create Customer", description: "option1 description", value: "1" },
-      {
-        title: "Delete Customer",
-        description: "option1 description",
-        value: "2",
-      },
-      { title: "View Customer", description: "add admin", value: "3" },
+      { title: "Manage Customers", description: "CRUD for customers", value: "1" },
+      { title: "Manage Discounts", description: "CRUD for discounts", value: "2" },
+      //{ title: "View Customer", description: "add admin", value: "3" },
       { title: "exit", description: "exit", value: "0" },
     ],
     initial: 1,

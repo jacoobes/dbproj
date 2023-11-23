@@ -1,9 +1,6 @@
-import prompts from "prompts";
-import { addCustomer, removeCustomer, viewCustomers } from './createcustomer.js';
+import { manageCustomers} from './createcustomer.js';
 import { manageDiscounts } from './creatediscount.js'
 export default {
-  1: async ({ database, business, }) => addCustomer(database, business),
-  2: async ({ database, business }) => removeCustomer(database, business),
-  3: async ({ database, business }) => viewCustomers(database, business),
-  4: async ({ database, business }) => manageDiscounts(database, business)
+  1: async ({ database, business, }) => manageCustomers(database, business),
+  2: async ({ database, business }) => manageDiscounts(database, business),
 };
