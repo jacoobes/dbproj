@@ -1,6 +1,6 @@
 import prompts from "prompts";
 import { exit } from "./tools.js";
-export { main as manageCustomers, search_one_customer_prompt };
+export { main as manageCustomers, search_customer_prompt };
 
 const addCustomerQuestions = [
   {
@@ -43,10 +43,10 @@ const addCustomer = async (db, business) => {
   }
 };
 
-const search_one_customer_prompt = (customers, message) => {
+const search_customer_prompt = (customers, message, multiselect=false) => {
     return prompts(
     {
-      type: "autocomplete",
+      type: multiselect? "autocompleteMultiselect": "multiselect",
       name: "ci_id",
       message,
       required: true,
@@ -69,7 +69,7 @@ const removeCustomer = async (db, business) => {
     console.log("No customers to delete! Returning");
     return;
   }
-  const customers = await search_one_customer_prompt(all_customers, "remove customers");
+  const customers = await search_customer_prompt(all_customers, "remove customers");
   try {
     await db.customer.delete(customers.ci_id);
     console.log("Customer removed successfully!");

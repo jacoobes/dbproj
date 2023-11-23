@@ -1,5 +1,5 @@
 import prompts from "prompts";
-import { search_one_customer_prompt } from './createcustomer.js'
+import { search_customer_prompt } from './createcustomer.js'
 export { addDiscount, main as manageDiscounts };
 
 function generateDiscountCode(length) {
@@ -57,7 +57,7 @@ const addDiscount = async (db, business) => {
         console.log("Get busy. You have no customers");
         return;
     }
-    const customers = await search_one_customer_prompt(all_customers, "select one");
+    const customers = await search_customer_prompt(all_customers, "select many", true);
     /**
      *
      *  discount_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -66,13 +66,16 @@ const addDiscount = async (db, business) => {
      *  discount_percent INTEGER,
      *  is_redeemed BOOLEAN
      */
-    const discount = await db.discount.create({ 
-        discount_code: generateDiscountCode(8),
-        discount_percent: discountData.discount_percentage,
-        customer_id: customers.ci_id,
-        is_redeemed: false,
-    });
-    console.log("Discount added successfully!");
+    for(const id of customers.ci_id) {
+        const discount = await db.discount.create({ 
+            discount_code: generateDiscountCode(8),
+            discount_percent: discountData.discount_percentage,
+            customer_id: id,
+            is_redeemed: false,
+        });
+        console.log("Discount added successfully: ", discount);
+    }
+    
   } catch (error) {
     console.error("Error adding discount:", error);
   }
@@ -124,4 +127,4 @@ const main = async (database, business) => {
 //  else if (choice === "edit") {
 //    await updateDiscount(database, business);
 //  }
-};
+}
