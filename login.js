@@ -18,10 +18,8 @@ async function prompt_found_business(businessResult) {
   if (response.value === "0") {
     return false;
   }
-  return (
-    (await options[response.value](businessResult)) &
-    prompt_found_business(businessResult)
-  );
+  return ((await options[response.value](businessResult)) &
+    prompt_found_business(businessResult));
 }
 
 export const login = async (database) => {

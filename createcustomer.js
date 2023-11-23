@@ -80,10 +80,8 @@ const viewCustomers = async (db, business) => {
         console.log("No customers to show. Get busy");
         return;
     }
-    for(const customer of customers) {
-        console.log(JSON.stringify(customer, "business_id", 3));
-    }
-    
+    customers.forEach(customer => 
+        console.log(JSON.stringify(customer, "business_id", 3)));
 }
 
 
