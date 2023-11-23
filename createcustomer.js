@@ -34,9 +34,9 @@ const addCustomer = async (db, business) => {
         console.log('Customer added successfully!');
     } catch (error) {
         console.error('Error adding customer:', error);
-    } finally {
+
         db.close();
-    }
+    } 
 };
 
 // Function to remove a customer from the database
@@ -46,8 +46,7 @@ const removeCustomer = async (db, business) => {
       console.log('Customer removed successfully!');
     } catch (error) {
       console.error('Error removing customer:', error);
-    } finally {
-      db.close();
+      db.close()
     }
 };
 
@@ -58,12 +57,13 @@ const viewCustomersQuestions = [
       message: 'Pick an action',
       choices: [
         { title: 'View all', description: 'This option has a description', value: 'all' },
-        { title: 'View one', value: 'one', disabled: true },
+        { title: 'View one', value: 'one' },
       ],
     },
 
 ];
 const viewCustomers = async (db, business) => {
-    const s = await prompts(viewCustomersQuestions);
+    const { all } = await prompts(viewCustomersQuestions);
+    
     
 }
