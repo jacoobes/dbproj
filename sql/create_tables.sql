@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS business_user (
   password VARCHAR NOT NULL
 );
 --DO NOT TOUCH THIS LINE
-CREATE TABLE IF NOT EXISTS discount_table (
+CREATE TABLE IF NOT EXISTS discount (
   discount_id INTEGER PRIMARY KEY AUTOINCREMENT,
   business_user_id INTEGER REFERENCES business_user(business_user_id),
   discount_code VARCHAR UNIQUE,

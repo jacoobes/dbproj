@@ -114,42 +114,64 @@ export const create = async (database) => {
                 password: response.password,
               };
 
-              const location_created = await database.location.create(locationObject);
-              const business_created = await database.business.create(businessObject); 
-              console.log('Business Object:', business_created);
+            const location_created = await database.location.create(locationObject);
+            const business_created = await database.business.create(businessObject); 
+            console.log('Business Object:', business_created);
             const bu = {
                 business_id: business_created.business_id,
                 email: data.email,
                 password: data.password,    
             };
-            //console.log(await database.business_user.get(1));
             const user = await database.business_user.create_business_user(bu);
             console.log('Created user:', user)
             console.log('Now go login!');
-        } break;
+            return;
+        };
         case "join": {
+            const businesses = await database.business.get_all();
+            if(businesses.length == 0) {
+                console.log("Nothing to join.");
+                return;
+            }
+            const business_choices = await prompts(
+            {
+              type: "autocomplete",
+              name: "business_id",
+              message: "Find your business",
+              choices: businesses
+                .map(data => ({ title: data.business_name, value: data.business_id }))
+            },
+            {
+              onCancel: () => {
+                console.log('onCancel')
+                process.exit(1);
+              },
             
-            //await database.business.find();
-        } break;
-    }
-
-
-    const businessUserObject = {
-      email: data.email,
-      password: data.password,
-      business_id:1 ,
-      business_user_id : 1
-    };
-  
-    try {
-      // Insert the business user data into the business_user table
-      const businessUserCreated = await database.business_user.create_business_user(businessUserObject);
-  
-      console.log('Business User Object:', businessUserObject);
-      console.log('Business User Created:', businessUserCreated);
-      console.log('Business User ID:', businessUserCreated.business_user_id);
-    } catch (error) {
-      console.error('Error creating business user:', error);
-      process.exit(1);
+            },
+          );
+         const selected = await database.business.get(business_choices.business_id);
+         await prompts([
+           {
+             type: "password",
+             name: "password",
+             message: "password",
+             validate: pw => pw === selected.password
+           },
+         ], {
+           onCancel: () => {
+             database.destroy();
+             process.exit(0);
+          },
+        })
+        const bu = {
+            business_id: selected.business_id,
+            email: data.email,
+            password: data.password,    
+        };
+        const user = await database.business_user.create_business_user(bu);
+        console.log('Created user:', user)
+        console.log('Now go login!');
+        return;
+        };
     }
 };
