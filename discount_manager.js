@@ -10,9 +10,20 @@ export default (db) => ({
   get: async (id) => {
     return db
       .selectFrom("discount_table")
-      .where("business_id", "=", id)
+      .where("discount_id", "=", id)
       .selectAll()
       .executeTakeFirstOrThrow();
+  },
+  update_discount_id: async (id, bp) => {
+    return (
+      db
+        .updateTable("discount_table")
+        .where("discount_id", "=", id)
+        .set({
+          ...bp,
+        })
+        .executeTakeFirst() !== undefined
+    );
   },
 
   //Using customer as a template ^^^^^
