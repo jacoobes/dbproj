@@ -1,6 +1,6 @@
 import prompts from "prompts";
 import { exit } from "./tools.js";
-export { main as manageCustomers };
+export { main as manageCustomers, search_one_customer_prompt };
 
 const addCustomerQuestions = [
   {
@@ -43,6 +43,23 @@ const addCustomer = async (db, business) => {
   }
 };
 
+const search_one_customer_prompt = (customers, message) => {
+    return prompts(
+    {
+      type: "autocomplete",
+      name: "ci_id",
+      message,
+      required: true,
+      choices: customers.map((data) => ({
+        title: data.name + ", " + data.phone_number,
+        value: data.customer_id,
+      })),
+    },
+    {
+      onCancel: exit(1),
+    },
+  );
+}
 // Function to remove a customer from the database
 const removeCustomer = async (db, business) => {
   const all_customers = await db.customer.get_all_from_business(
@@ -52,21 +69,7 @@ const removeCustomer = async (db, business) => {
     console.log("No customers to delete! Returning");
     return;
   }
-  const customers = await prompts(
-    {
-      type: "autocomplete",
-      name: "ci_id",
-      message: "remove customers",
-      required: true,
-      choices: all_customers.map((data) => ({
-        title: data.name + ", " + data.phone_number,
-        value: data.customer_id,
-      })),
-    },
-    {
-      onCancel: exit(1),
-    },
-  );
+  const customers = await search_one_customer_prompt(all_customers, "remove customers");
   try {
     await db.customer.delete(customers.ci_id);
     console.log("Customer removed successfully!");

@@ -1,14 +1,14 @@
 export default (db) => ({
   create: (dp) => {
     return db
-      .insertInto("discount_table")
+      .insertInto("discount")
       .values(dp)
       .returningAll()
       .executeTakeFirstOrThrow();
   },
   get: async (id) => {
     return db
-      .selectFrom("discount_table")
+      .selectFrom("discount")
       .where("discount_id", "=", id)
       .selectAll()
       .executeTakeFirstOrThrow();
@@ -16,7 +16,7 @@ export default (db) => ({
   update_discount_id: async (id, bp) => {
     return (
       db
-        .updateTable("discount_table")
+        .updateTable("discount")
         .where("discount_id", "=", id)
         .set({
           ...bp,

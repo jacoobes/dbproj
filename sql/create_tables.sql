@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS business_user (
 --DO NOT TOUCH THIS LINE
 CREATE TABLE IF NOT EXISTS discount (
   discount_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  business_user_id INTEGER REFERENCES business_user(business_user_id),
+  customer_id INTEGER REFERENCES customer(customer_id),
   discount_code VARCHAR UNIQUE,
   discount_percent INTEGER,
   is_redeemed BOOLEAN
