@@ -104,7 +104,7 @@ const main = async (database, business) => {
     } else if (choice === 'remove') {
       await removeCustomer(database, business);
     } else if (choice === 'view') {
-
+        await viewCustomers(database, business);
     }
 
 };
