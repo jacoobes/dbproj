@@ -1,5 +1,4 @@
 export default (db) => ({
-
   create: (dp) => {
     return db
       .insertInto("discount_table")
@@ -93,5 +92,4 @@ export default (db) => ({
       .selectAll()
       .executeTakeFirstOrThrow();
   },*/
-
 });

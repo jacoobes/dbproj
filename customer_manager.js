@@ -27,11 +27,10 @@ export default (db) => ({
       .selectAll()
       .execute();
   },
-  delete_by_id: async (id) => {
-     return db
+  delete: async (id) => {
+    return db
       .deleteFrom("customer")
       .where("customer_id", "=", id)
       .executeTakeFirst();
- 
-  }
+  },
 });

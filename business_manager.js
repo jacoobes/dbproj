@@ -18,11 +18,8 @@ export default (db) => ({
       .returningAll()
       .executeTakeFirst();
   },
-  get_all:() => {
-    return db 
-      .selectFrom('business')
-      .selectAll()
-      .execute();
+  get_all: () => {
+    return db.selectFrom("business").selectAll().execute();
   },
   update: async (id, bp) => {
     return (
