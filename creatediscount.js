@@ -1,5 +1,5 @@
 import prompts from 'prompts'
-export {addDiscount}
+export {addDiscount, main as manageDiscounts}
 
 const addDiscountQuestions = [
     {
@@ -49,7 +49,7 @@ const updateDiscountQuestions = [
   };
   
   // Function to remove a customer from the database
-  const removeDiscount = async () => {
+  const removeDiscount = async (db, business) => {
     try {
       const { discount_id } = await prompts(removeDiscountQuestions);
       
@@ -63,7 +63,7 @@ const updateDiscountQuestions = [
   };
 
 // Function to update a discount in the database
-  const updateDiscount = async () => {
+  const updateDiscount = async (db, business) => {
     try {
       const { discount_id } = await prompts(updateDiscountQuestions);
       
@@ -77,7 +77,7 @@ const updateDiscountQuestions = [
   };
   
   // Main function to display options and handle user input
-  const main = async () => {
+  const main = async (database, business) => {
     const { choice } = await prompts({
       type: 'select',
       name: 'choice',
@@ -90,11 +90,11 @@ const updateDiscountQuestions = [
     });
   
     if (choice === 'add') {
-      await addDiscount();
+      await addDiscount(database, business);
     } else if (choice === 'remove') {
-      await removeDiscount();
+      await removeDiscount(database, business);
     } else if (choice === 'edit'){
-      await updateDiscount();
+      await updateDiscount(database, business);
     }
   };
   
