@@ -1,7 +1,7 @@
 import prompts from "prompts";
-import { addCustomer, removeCustomer } from './createcustomer.js';
+import { addCustomer, removeCustomer, viewCustomers } from './createcustomer.js';
 export default {
-  1: ({ database, business, acct }) => addCustomer(database, business),
+  1: async ({ database, business, }) => addCustomer(database, business),
   2: async ({ database, business }) => removeCustomer(database, business),
-  3: async (ctx) => {},
+  3: async ({ database, business }) => viewCustomers(database, business),
 };
