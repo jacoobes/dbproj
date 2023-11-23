@@ -1,7 +1,7 @@
 import prompts from 'prompts'
 
 export const create = async (database) => {
- const data = await prompts([{ 
+    const data = await prompts([{ 
             type: 'text',
             name: 'email',
             message: 'email',
@@ -152,4 +152,4 @@ export const create = async (database) => {
       console.error('Error creating business user:', error);
       process.exit(1);
     }
-  };
+};

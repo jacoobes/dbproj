@@ -1,75 +1,69 @@
 import prompts from 'prompts'
-export {addCustomer}
+export {addCustomer, removeCustomer}
 
 const addCustomerQuestions = [
     {
       type: 'text',
-      name: 'Name',
-      message: 'Enter customer name:',
+      name: 'name',
+      message: 'enter customer name:',
     },
     {
       type: 'text',
       name: 'join_date',
-      message: 'Enter join date (YYYY-MM-DD):',
+      message: 'enter join date (yyyy-mm-dd):',
 
       type: 'text',
       name: 'phone_number',
-      message: 'Enter customer phone number:',
+      message: 'enter customer phone number:',
     },
   ];
   
-  const removeCustomerQuestions = [
+const removeCustomerQuestions = [
     {
       type: 'number',
       name: 'customer_id',
       message: 'Enter customer ID to remove:',
     },
-  ];
-  
-  // Function to add a customer to the database
-  const addCustomer = async (db, business) => {
+];
+
+// Function to add a customer to the database
+const addCustomer = async (db, business) => {
     try {
-      const customerData = await prompts(addCustomerQuestions);
-      
-      
-      console.log('Customer added successfully!');
+        const customerData = await prompts(addCustomerQuestions);
+
+        console.log('Customer added successfully!');
     } catch (error) {
-      console.error('Error adding customer:', error);
+        console.error('Error adding customer:', error);
     } finally {
-      db.close();
+        db.close();
     }
-  };
-  
-  // Function to remove a customer from the database
-  const removeCustomer = async () => {
+};
+
+// Function to remove a customer from the database
+const removeCustomer = async (db, business) => {
     try {
       const { customer_id } = await prompts(removeCustomerQuestions);
-      
-      
       console.log('Customer removed successfully!');
     } catch (error) {
       console.error('Error removing customer:', error);
     } finally {
       db.close();
     }
-  };
-  
-  // Main function to display options and handle user input
-  const main = async () => {
-    const { choice } = await prompts({
+};
+
+const viewCustomersQuestions = [
+    {
       type: 'select',
-      name: 'choice',
-      message: 'Choose an option:',
+      name: 'value',
+      message: 'Pick an action',
       choices: [
-        { title: 'Add Customer', value: 'add' },
-        { title: 'Remove Customer', value: 'remove' },
+        { title: 'View all', description: 'This option has a description', value: 'all' },
+        { title: 'View one', value: 'one', disabled: true },
       ],
-    });
-  
-    if (choice === 'add') {
-      await addCustomer();
-    } else if (choice === 'remove') {
-      await removeCustomer();
-    }
-  };
-  
+    },
+
+];
+const viewCustomers = async (db, business) => {
+    const s = await prompts(viewCustomersQuestions);
+    
+}
