@@ -164,8 +164,7 @@ export const create = async (database) => {
             database.destroy();
             process.exit(0);
           },
-        },
-      );
+        });
       const bu = {
         business_id: selected.business_id,
         email: data.email,

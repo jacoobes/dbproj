@@ -79,8 +79,14 @@ export const login = async (database) => {
   };
   console.log("Email entered:", body.email);
   console.log("Password entered:", body.password);
-
-  const account = await database.business_user.get_user_by_email(body.email);
+  
+  let account;
+  try {
+    account = await database.business_user.get_user_by_email(body.email);
+  } catch(e) {
+    console.log("Could not find account by email. Try again");
+    return;
+  }
 
   console.log("Retrieved account:", account);
 
