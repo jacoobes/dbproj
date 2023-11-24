@@ -1,4 +1,5 @@
 import prompts from "prompts";
+import { exit } from './tools.js'
 import { search_customer_prompt } from './createcustomer.js'
 export { addDiscount, main as manageDiscounts };
 
@@ -24,14 +25,6 @@ const addDiscountQuestions = [
     validate: (data) => Number.isInteger(data) && data < 100 && data > 0
   },
   
-];
-
-const removeDiscountQuestions = [
-  {
-    type: "number",
-    name: "discount_id",
-    message: "Enter discount ID to remove:",
-  },
 ];
 
 //const updateDiscountQuestions = [
@@ -67,11 +60,12 @@ const addDiscount = async (db, business) => {
      *  is_redeemed BOOLEAN
      */
     for(const id of customers.ci_id) {
+        console.log(id)
         const discount = await db.discount.create({ 
             discount_code: generateDiscountCode(8),
             discount_percent: discountData.discount_percentage,
             customer_id: id,
-            is_redeemed: false,
+            is_redeemed: 0,
         });
         console.log("Discount added successfully: ", discount);
     }
@@ -84,9 +78,40 @@ const addDiscount = async (db, business) => {
 // Function to remove a customer from the database
 const removeDiscount = async (db, business) => {
   try {
-    const { discount_id } = await prompts(removeDiscountQuestions);
-
-    console.log("Discount removed successfully!");
+    const all_customers = await db.customer.get_all_from_business(
+      business.business_id,
+    );
+    if(all_customers.length == 0 ) {
+        console.clear();
+        console.log("Get busy. You have no customers");
+        return;
+    }
+    const { ci_id } = await search_customer_prompt(all_customers, "Select customer to remove from", false);
+    const customer = await db.customer.get(ci_id);
+    const all_selected_discounts = await db.discount.get_discounts_from_customer(ci_id);
+    if(all_selected_discounts.length == 0) {
+        console.clear();
+        console.log("No discounts found.")
+        return;
+    }
+    const discount_select = await prompts({
+      type: "multiselect",
+      name: "discounts",
+      message: "pick discount(s) to delete from customer " + ci_id,
+      required: true,
+      choices: all_selected_discounts.map((data) => ({
+          title: customer.name + ", discount code:" + data.discount_code + " for "+ data.discount_percent+"%",
+          value: data.discount_id,
+      })),
+    },
+    {
+      onCancel: exit(1),
+    })
+    
+    for(const did of discount_select.discounts) {
+        await db.discount.delete(did);
+    }
+    console.log("Discount(s) removed successfully!");
   } catch (error) {
     console.error("Error removing discount:", error);
     db.close();

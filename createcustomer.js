@@ -46,7 +46,7 @@ const addCustomer = async (db, business) => {
 const search_customer_prompt = (customers, message, multiselect=false) => {
     return prompts(
     {
-      type: multiselect? "autocompleteMultiselect": "multiselect",
+      type: multiselect? "autocompleteMultiselect": "select",
       name: "ci_id",
       message,
       required: true,

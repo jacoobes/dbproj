@@ -24,6 +24,19 @@ export default (db) => ({
         .executeTakeFirst() !== undefined
     );
   },
+  get_discounts_from_customer: async (customer_id) => {
+     return (db.selectFrom('discount')
+          .where('customer_id', '=', customer_id)
+          .selectAll()
+          .execute());
+  },
+  delete: async (id) => {
+    return db
+      .deleteFrom("discount")
+      .where("discount_id", "=", id)
+      .executeTakeFirst();
+  }
+
 
   //Using customer as a template ^^^^^
   //Maybe??? vvvvv
