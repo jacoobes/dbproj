@@ -131,6 +131,33 @@ const removeDiscount = async (db, business) => {
 //  }
 //};
 
+const viewDiscount = async (db, business) => {
+ try {
+    const all_customers = await db.customer.get_all_from_business(
+      business.business_id,
+    );
+    if(all_customers.length == 0 ) {
+        console.clear();
+        console.log("Get busy. You have no customers");
+        return;
+    }
+    const { ci_id } = await search_customer_prompt(all_customers, "Select customer to view from", false);
+    const all_selected_discounts = await db.discount.get_discounts_from_customer(ci_id);
+    if(all_selected_discounts.length == 0) {
+        console.clear();
+        console.log("No discounts found.")
+        return;
+    }
+    all_selected_discounts.forEach((customer) =>
+        console.log(JSON.stringify(customer, "discount_id", 3)));
+  } catch (error) {
+    console.error("Error viewing discount:", error);
+    db.close();
+  }
+   
+}
+
+
 // Main function to display options and handle user input
 const main = async (database, business) => {
   const { choice } = await prompts({
@@ -140,6 +167,7 @@ const main = async (database, business) => {
     choices: [
       { title: "Add Discount", value: "add" },
       { title: "Remove Discount", value: "remove" },
+      { title: "View Discount", value: "view" }
  //     { title: "Edit Discount", value: "edit" },
     ],
   });
@@ -148,6 +176,8 @@ const main = async (database, business) => {
     await addDiscount(database, business);
   } else if (choice === "remove") {
     await removeDiscount(database, business);
+  } else if (choice == "view") {
+    await viewDiscount(database, business);
   }
 //  else if (choice === "edit") {
 //    await updateDiscount(database, business);

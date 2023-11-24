@@ -1,5 +1,5 @@
 import prompts from "prompts";
-
+import { exit } from './tools.js'
 export const create = async (database) => {
   const data = await prompts(
     [
@@ -141,10 +141,7 @@ export const create = async (database) => {
           })),
         },
         {
-          onCancel: () => {
-            console.log("onCancel");
-            process.exit(1);
-          },
+          onCancel: exit(1),
         },
       );
       const selected = await database.business.get(
