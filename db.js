@@ -38,4 +38,6 @@ const createTables = async (db) => {
     }
   });
   create_all();
+
+  
 };
