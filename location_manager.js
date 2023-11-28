@@ -1,6 +1,6 @@
 export default (db) => ({
   //latitude = number, longitude = number
-  create: async ({latitude, longitude}) => {
+  create: async ({ latitude, longitude }) => {
     return db
       .insertInto("location")
       .values({ longitude, latitude })

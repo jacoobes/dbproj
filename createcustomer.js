@@ -1,79 +1,114 @@
-import prompts from 'prompts'
-export {addCustomer}
+import prompts from "prompts";
+import { exit } from "./tools.js";
+export { main as manageCustomers, search_customer_prompt };
 
 const addCustomerQuestions = [
-    {
-      type: 'text',
-      name: 'Name',
-      message: 'Enter customer name:',
-    },
-    {
-      type: 'text',
-      name: 'join_date',
-      message: 'Enter join date (YYYY-MM-DD):',
+  {
+    type: "text",
+    name: "name",
+    message: "enter customer name:",
+  },
+  {
+    type: "text",
+    name: "phone_number",
+    message: "enter customer phone number:",
+    //https://stackoverflow.com/a/29767609/14709144
+    validate: (input) =>
+      /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test(input),
+  },
+];
 
-      type: 'text',
-      name: 'phone_number',
-      message: 'Enter customer phone number:',
-    },
-  ];
-  
-  const removeCustomerQuestions = [
-    {
-      type: 'number',
-      name: 'customer_phone_number',
-      message: 'Enter customer phone number to remove customer from list:',
-    },
-  ];
-  const addCustomer = async (db, businessId) => {
-    try {
-      const response = await prompts(addCustomerQuestions);
-      const customerObject = {
-        name: response.name,
-        join_date: response.join_date,
-        phone_number: response.phone_number,
-        business_id: businessId,  
-      };
-  
-      const customerCreated = await db.customer.create(customerObject);
-  
-      console.log('Customer added successfully!', customerCreated);
-    } catch (error) {
-      console.error('Error adding customer:', error);
-    } finally {
-      db.close();
-    }
-  };
-  
-   const removeCustomer = async () => {
-    try {
-      const { customer_id } = await prompts(removeCustomerQuestions);
-      
-      
-      console.log('Customer removed successfully!');
-    } catch (error) {
-      console.error('Error removing customer:', error);
-    } finally {
-      process.exit(1);
-    }
-  };
-  
-  // Main function to display options and handle user input
-  const main = async () => {
-    const { choice } = await prompts({
-      type: 'select',
-      name: 'choice',
-      message: 'Choose an option:',
-      choices: [
-        { title: 'Add Customer', value: 'add' },
-        { title: 'Remove Customer', value: 'remove' },
-      ],
+// Function to add a customer to the database
+const addCustomer = async (db, business) => {
+  try {
+    const customerData = await prompts(addCustomerQuestions);
+    //
+    // business_id INTEGER REFERENCES business(business_id),
+    // name VARCHAR,
+    // join_date VARCHAR,
+    // phone_number INTEGER
+
+    await db.customer.create({
+      name: customerData.name,
+      phone_number: customerData.phone_number,
+      join_date: new Date().toISOString(),
+      business_id: business.business_id,
     });
-  
-    if (choice === 'add') {
-      await addCustomer();
-    } else if (choice === 'remove') {
-      await removeCustomer();
-    }
-  };
-  
+
+    console.log("Customer added successfully!");
+  } catch (error) {
+    console.error("Error adding customer:", error);
+
+    db.close();
+  }
+};
+
+const search_customer_prompt = (customers, message, multiselect=false) => {
+    return prompts(
+    {
+      type: multiselect? "autocompleteMultiselect": "select",
+      name: "ci_id",
+      message,
+      required: true,
+      choices: customers.map((data) => ({
+        title: data.name + ", " + data.phone_number,
+        value: data.customer_id,
+      })),
+    },
+    {
+      onCancel: exit(1),
+    },
+  );
+}
+// Function to remove a customer from the database
+const removeCustomer = async (db, business) => {
+  const all_customers = await db.customer.get_all_from_business(
+    business.business_id,
+  );
+  if (all_customers.length == 0) {
+    console.log("No customers to delete! Returning");
+    return;
+  }
+  const customers = await search_customer_prompt(all_customers, "remove customers");
+  try {
+    await db.customer.delete(customers.ci_id);
+    console.log("Customer removed successfully!");
+  } catch (error) {
+    console.error("Error removing customer:", error);
+    db.close();
+  }
+};
+
+const viewCustomers = async (db, business) => {
+  const customers = await db.customer.get_all_from_business(
+    business.business_id,
+  );
+  if (customers.length == 0) {
+    console.log("No customers to show. Get busy");
+    return;
+  }
+  customers.forEach((customer) =>
+    console.log(JSON.stringify(customer, "business_id", 3)),
+  );
+};
+
+const main = async (database, business) => {
+  const { choice } = await prompts({
+    type: "select",
+    name: "choice",
+    message: "Choose an option:",
+    choices: [
+      { title: "Add Customer", value: "add" },
+      { title: "Remove Customer", value: "remove" },
+      { title: "View Customers", value: "view" },
+    ],
+  });
+
+  if (choice === "add") {
+    await addCustomer(database, business);
+  } else if (choice === "remove") {
+    await removeCustomer(database, business);
+  } else if (choice === "view") {
+    await viewCustomers(database, business);
+  }
+};

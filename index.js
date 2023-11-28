@@ -1,8 +1,20 @@
 import prompts from "prompts";
+import { exit } from "./tools.js";
 import { initiate } from "./db.js";
 
-console.log("Welcome. Please choose an option");
-
+console.clear();
+console.log(
+  `
+/$$          /$$$$$ /$$$$$$$  /$$$$$$$$ /$$   /$$ /$$   /$$
+| $$         |__  $$| $$__  $$|__  $$__/| $$  /$$/| $$  /$$/
+| $$            | $$| $$  \ $$   | $$   | $$ /$$/ | $$ /$$/ 
+| $$            | $$| $$$$$$$    | $$   | $$$$$/  | $$$$$/  
+| $$       /$$  | $$| $$__  $$   | $$   | $$  $$  | $$  $$  
+| $$      | $$  | $$| $$  \ $$    | $$   | $$\  $$  | $$\  $$ 
+| $$$$$$$$|  $$$$$$/| $$$$$$$/   | $$   | $$ \  $$ | $$ \  $$
+|________/ \______/ |_______/     |__/   |__/  \__/ |__/  \__/
+Business Management Services\n\n`.trim(),
+);
 //choose the action used
 const { action } = await prompts(
   {
@@ -20,10 +32,11 @@ const { action } = await prompts(
       },
     ],
   },
-  { onCancel: () => (console.log("Cancelled"), process.exit(0)) },
+  { onCancel: exit(1) },
 );
 
 const database = await initiate("./database/main.db");
+
 if (action == "login") {
   import("./login.js").then((module) => module.login(database));
 } else {
