@@ -11,7 +11,11 @@ CREATE TABLE IF NOT EXISTS customer (
 --DO NOT TOUCH THIS LINE
 CREATE TABLE IF NOT EXISTS location (
   location_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  business_id INTEGER REFERENCES business(business_id),
   longitude INTEGER,
+  address VARCHAR,
+  city VARCHAR,
+  country VARCHAR,
   latitude INTEGER
 );
 --DO NOT TOUCH THIS LINE
@@ -19,11 +23,7 @@ CREATE TABLE IF NOT EXISTS business (
   business_name VARCHAR UNIQUE,
   business_id INTEGER PRIMARY KEY AUTOINCREMENT,
   brand VARCHAR,
-  address VARCHAR,
-  city VARCHAR,
-  country VARCHAR,
-  password VARCHAR NOT NULL,
-  location_id INTEGER REFERENCES location(location_id)
+  password VARCHAR NOT NULL
 );
 --DO NOT TOUCH THIS LINE
 CREATE TABLE IF NOT EXISTS business_user (

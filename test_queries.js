@@ -27,22 +27,24 @@ await createTables(db);
 console.log('Tables created successfully.');
         
 const queries = [
-    "INSERT INTO location (longitude, latitude) VALUES (-73.935242, 40.730610);",
-
+    
     `
-    INSERT INTO business (business_name, brand, address, city, country, password, location_id)
-    VALUES ('Example Business', 'Example Brand', '123 Main St', 'Cityville', 'Countryland', 'secretpassword', 1);
+    INSERT INTO business (business_name, brand,  password)
+    VALUES ('Example Business', 'Example Brand', 'secretpassword');
     `,
 
+    `INSERT INTO location (longitude, latitude, address, city, country, business_id)
+    VALUES (-73.935242, 40.730610, '123 Main St', 'Cityville', 'Countryland', 1);`,
     `
+
     INSERT INTO customer (business_id, name, join_date, phone_number)
     VALUES (1, 'John Doe', '2023-01-01', 1234567890);
     `,
 
     `
-    SELECT b.business_name, b.brand, b.address, b.city, b.country, l.longitude, l.latitude
+    SELECT b.business_name, b.brand, l.address, l.city, l.country, l.longitude, l.latitude
     FROM business b
-    JOIN location l ON b.location_id = l.location_id;
+    JOIN location l ON b.business_id = l.business_id;
     `,
 
     `

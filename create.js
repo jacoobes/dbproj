@@ -68,6 +68,14 @@ export const create = async (database) => {
           name: "brand",
           message: "Enter brand:",
         },
+        
+        {
+          type: "text",
+          name: "password",
+          message: "Enter password:",
+        },
+      ]);
+      const location_response = await prompts([
         {
           type: "text",
           name: "address",
@@ -84,13 +92,6 @@ export const create = async (database) => {
           message: "Enter country:",
         },
         {
-          type: "text",
-          name: "password",
-          message: "Enter password:",
-        },
-      ]);
-      const location_response = await prompts([
-        {
           type: "number",
           name: "longitude",
           message: "Enter longitude:",
@@ -103,16 +104,19 @@ export const create = async (database) => {
           validate: Number.parseFloat,
         },
       ]);
-      // Convert the response to a Location object
-      const locationObject = {
-        longitude: location_response.longitude,
-        latitude: location_response.latitude,
-      };
+
       // Convert the response to a Business object
       const businessObject = { ...response };
 
-      const location_created = await database.location.create(locationObject);
       const business_created = await database.business.create(businessObject);
+      // Convert the response to a Location object
+      const locationObject = { 
+          ...location_response,
+          business_id: business_created.business_id  
+      };
+      
+      const location_created = await database.location.create(locationObject);
+      console.log('Location Object', locationObject);
       console.log("Business Object:", business_created);
       const bu = {
         business_id: business_created.business_id,

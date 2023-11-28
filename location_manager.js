@@ -1,9 +1,9 @@
 export default (db) => ({
   //latitude = number, longitude = number
-  create: async ({ latitude, longitude }) => {
+  create: async (loc) => {
     return db
       .insertInto("location")
-      .values({ longitude, latitude })
+      .values(loc)
       .returningAll()
       .executeTakeFirst();
   },
