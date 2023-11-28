@@ -21,23 +21,23 @@ const addCustomerQuestions = [
   const removeCustomerQuestions = [
     {
       type: 'number',
-      name: 'customer_id',
-      message: 'Enter customer ID to remove:',
+      name: 'customer_phone_number',
+      message: 'Enter customer phone number to remove customer from list:',
     },
   ];
-  const customerObject = {
-    name : response.name ,
-    join_date : response.join_date,
-    phone_number : response.phone_number,
-  }
-  
-  // Function to add a customer to the database
-  const addCustomer = async (db, business) => {
+  const addCustomer = async (db, businessId) => {
     try {
-      const customerData = await prompts(addCustomerQuestions);
-      
-      
-      console.log('Customer added successfully!');
+      const response = await prompts(addCustomerQuestions);
+      const customerObject = {
+        name: response.name,
+        join_date: response.join_date,
+        phone_number: response.phone_number,
+        business_id: businessId,  
+      };
+  
+      const customerCreated = await db.customer.create(customerObject);
+  
+      console.log('Customer added successfully!', customerCreated);
     } catch (error) {
       console.error('Error adding customer:', error);
     } finally {
@@ -45,8 +45,7 @@ const addCustomerQuestions = [
     }
   };
   
-  // Function to remove a customer from the database
-  const removeCustomer = async () => {
+   const removeCustomer = async () => {
     try {
       const { customer_id } = await prompts(removeCustomerQuestions);
       
