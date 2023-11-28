@@ -15,3 +15,10 @@ Why? Business and their employees should be able to manage their databases in an
 - Add **customers**, **discounts**, and your **business** to the database
 - Delete **discounts**, **customers** from the database.
 - View **discounts**, **customers** from the database.
+
+
+## Run:
+```sh 
+npm install
+node .
+```
