@@ -18,6 +18,11 @@ async function prompt_found_business(businessResult) {
         description: "CRUD for discounts",
         value: "2",
       },
+      {
+        title: "Manage Locations",
+        description: "CRUD for locations",
+        value: "3"
+      },
       //{ title: "View Customer", description: "add admin", value: "3" },
       { title: "exit", description: "exit", value: "0" },
     ],

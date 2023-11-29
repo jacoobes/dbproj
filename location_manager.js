@@ -14,4 +14,18 @@ export default (db) => ({
       .selectAll()
       .executeTakeFirstOrThrow();
   },
+  get_all: (business_id) => {
+    return db
+      .selectFrom('location')
+      .where('business_id', '=', business_id)
+      .selectAll()
+      .execute()
+  },
+  delete: (loc_id) => {
+    return db
+      .deleteFrom('location')
+      .where('location_id', '=', loc_id)
+      .executeTakeFirst()
+
+  }
 });

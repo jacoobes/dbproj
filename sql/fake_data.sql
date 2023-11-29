@@ -1,13 +1,3 @@
-
-INSERT INTO location (longitude, latitude, address, city, country, business_id)
-    VALUES (-73.42, 40.730610, 'Address1', 'City1', 'Country1', 1);
---DO NOT TOUCH THIS LINE
-INSERT INTO location (longitude, latitude, address, city, country, business_id)
-    VALUES (-71.9352, 10.710, 'Address2', 'City2', 'Country2', 2);
---DO NOT TOUCH THIS LINE
-INSERT INTO location (longitude, latitude, address, city, country, business_id)
-    VALUES (-80.1917902, 25.7616798, 'Address3', 'City3', 'Country3', 3);
---DO NOT TOUCH THIS LINE
 INSERT INTO business (business_name, brand, password) 
    VALUES ('Business1', 'Brand1', 'password1');
 --DO NOT TOUCH THIS LINE
@@ -16,6 +6,15 @@ INSERT INTO business (business_name, brand, password)
 --DO NOT TOUCH THIS LINE
 INSERT INTO business (business_name, brand, password) 
    VALUES ('Business3', 'Brand3', 'password3');
+--DO NOT TOUCH THIS LINE
+INSERT INTO location (longitude, latitude, address, city, country, business_id)
+    VALUES (-73.42, 40.730610, 'Address1', 'City1', 'Country1', 1);
+--DO NOT TOUCH THIS LINE
+INSERT INTO location (longitude, latitude, address, city, country, business_id)
+    VALUES (-71.9352, 10.710, 'Address2', 'City2', 'Country2', 2);
+--DO NOT TOUCH THIS LINE
+INSERT INTO location (longitude, latitude, address, city, country, business_id)
+    VALUES (-80.1917902, 25.7616798, 'Address3', 'City3', 'Country3', 3);
 --DO NOT TOUCH THIS LINE
 INSERT INTO customer (business_id, name, join_date, phone_number) VALUES (1, 'John Doe', '2023-01-01', 1234567890);
 --DO NOT TOUCH THIS LINE

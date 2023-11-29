@@ -6,6 +6,7 @@ import DiscountManager from './discount_manager.js'
 import Database from "better-sqlite3";
 import { SqliteDialect, Kysely } from "kysely";
 import { readFile } from "node:fs/promises";
+import { readSqlAndInit } from "./tools.js";
 
 export const initiate = async (database_location) => {
   const __sqlitedb = new Database(database_location);
@@ -14,7 +15,10 @@ export const initiate = async (database_location) => {
       database: __sqlitedb,
     }),
   });
-  await createTables(__sqlitedb);
+  await readSqlAndInit(__sqlitedb, "./sql/create_tables.sql");
+  if(process.argv[2] == "fake_data") {
+    //await readSqlAndInit(__sqlitedb, "./sql/fake_data.sql");
+  }
   return {
     customer: CustomerManager(db),
     business: BusinessManager(db),
@@ -23,21 +27,4 @@ export const initiate = async (database_location) => {
     discount: DiscountManager(db),
     destroy: () => db.destroy(),
   };
-};
-
-const createTables = async (db) => {
-  const init_tables = await readFile("./sql/create_tables.sql", "utf8");
-
-  const stmts = init_tables
-    .split("--DO NOT TOUCH THIS LINE\n")
-    .map((sql) => db.prepare(sql));
-
-  const create_all = db.transaction(() => {
-    for (const stmt of stmts) {
-      stmt.run();
-    }
-  });
-  create_all();
-
-  
 };

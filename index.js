@@ -1,5 +1,5 @@
 import prompts from "prompts";
-import { exit } from "./tools.js";
+import { exit, readSqlAndInit } from "./tools.js";
 import { initiate } from "./db.js";
 
 console.clear();
@@ -36,6 +36,7 @@ const { action } = await prompts(
 );
 
 const database = await initiate("./database/main.db");
+
 
 if (action == "login") {
   import("./login.js").then((module) => module.login(database));
