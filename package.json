@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "test": "node --test"
+    "test": "node ./test_queries.js"
   },
   "keywords": [],
   "author": "",
