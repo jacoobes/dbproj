@@ -41,7 +41,7 @@ const discountExprs = [
   "INSERT INTO discount (customer_id, discount_code, discount_percent, is_redeemed) VALUES (3, 'FREESHIP', 10, 1);",
 ];
 
-const allExprs = [...locationExprs, ...businessExprs, ...customerExprs, ...businessUserExprs, ...discountExprs];
+const allExprs = [ ...businessExprs, ...locationExprs, ...customerExprs, ...businessUserExprs, ...discountExprs];
 
 // Create the SQL file with all the generated INSERT statements
 const sqlContent = `
