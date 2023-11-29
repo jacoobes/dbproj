@@ -30,3 +30,13 @@ Business and their employees should be able to manage their databases in an effi
 npm install
 node .
 ```
+
+
+## TESTS: 
+
+- We added 5+ test queries to ensure database is clean and working. 
+- To test, run:
+
+```sh
+npm test
+```
