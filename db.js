@@ -5,7 +5,6 @@ import LocationManager from "./location_manager.js";
 import DiscountManager from './discount_manager.js'
 import Database from "better-sqlite3";
 import { SqliteDialect, Kysely } from "kysely";
-import { readFile } from "node:fs/promises";
 import { readSqlAndInit } from "./tools.js";
 
 export const initiate = async (database_location) => {
@@ -16,9 +15,7 @@ export const initiate = async (database_location) => {
     }),
   });
   await readSqlAndInit(__sqlitedb, "./sql/create_tables.sql");
-  if(process.argv[2] == "fake_data") {
-    //await readSqlAndInit(__sqlitedb, "./sql/fake_data.sql");
-  }
+
   return {
     customer: CustomerManager(db),
     business: BusinessManager(db),

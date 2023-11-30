@@ -1,7 +1,7 @@
 import prompts from "prompts";
 import { exit, readSqlAndInit } from "./tools.js";
 import { initiate } from "./db.js";
-
+import { readFile } from 'fs/promises'
 console.clear();
 console.log(
   `
@@ -30,6 +30,10 @@ const { action } = await prompts(
         value: "create",
         description: "Create an account",
       },
+      {
+        value: "gen",
+        description: "Generate fake data to test"
+      }
     ],
   },
   { onCancel: exit(1) },
@@ -37,9 +41,13 @@ const { action } = await prompts(
 
 const database = await initiate("./database/main.db");
 
-
 if (action == "login") {
-  import("./login.js").then((module) => module.login(database));
-} else {
-  import("./create.js").then((module) => module.create(database));
+  import("./login.js")
+        .then((module) => module.login(database));
+} else  if (action === 'create') {
+  import("./create.js")
+        .then((module) => module.create(database));
+} else if (action == "gen") {
+  console.log("Genning fake data");
+  await readSqlAndInit(database, "./sql/fake_data.sql")
 }

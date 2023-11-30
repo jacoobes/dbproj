@@ -1,6 +1,7 @@
 import  Database from "better-sqlite3";
 import { readFile } from 'fs/promises'
 import { existsSync, rmSync } from "fs";
+import { readSqlAndInit } from "./tools.js";
 
 if(existsSync('./database/test.db')) {
     rmSync("./database/test.db");
@@ -8,22 +9,7 @@ if(existsSync('./database/test.db')) {
 const db = new Database('./database/test.db');
 db.pragma('journal_mode = WAL');
 
-const createTables = async (db) => {
-  const init_tables = await readFile("./sql/create_tables.sql", "utf8");
-
-  const stmts = init_tables
-    .split("--DO NOT TOUCH THIS LINE\n")
-    .map((sql) => db.prepare(sql));
-
-  const create_all = db.transaction(() => {
-    for (const stmt of stmts) {
-      stmt.run();
-    }
-  });
-  create_all();
-};
-
-await createTables(db);
+await readSqlAndInit(db, "./sql/create_tables.sql");
 console.log('Tables created successfully.');
         
 const queries = [
