@@ -34,7 +34,9 @@ node .
 - Run our application as above.
 - When prompted, select the `gen` option to create fake data.
 - Then, rerun the application, trying to login
-
+- You can login into Buisness1 with credentials
+    - username : john@example.com
+    - password : userpassword1
 ## TESTS: 
 
 - We added 5+ test queries to ensure database is clean and working. 
