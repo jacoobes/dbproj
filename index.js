@@ -49,5 +49,8 @@ if (action == "login") {
         .then((module) => module.create(database));
 } else if (action == "gen") {
   console.log("Genning fake data");
-  await readSqlAndInit(database, "./sql/fake_data.sql")
+  const { gen_data }  = await import("./add_fake_data.js");
+  gen_data(database.__internal);
+  console.log("DONE. Re run the application. View add_fake_data.js to see the added data");
 }
+

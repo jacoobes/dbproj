@@ -23,5 +23,6 @@ export const initiate = async (database_location) => {
     location: LocationManager(db),
     discount: DiscountManager(db),
     destroy: () => db.destroy(),
+    __internal : __sqlitedb
   };
 };

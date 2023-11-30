@@ -1,5 +1,4 @@
 
-import { writeFileSync } from 'fs'
 const businessExprs = [
   `INSERT INTO business (business_name, brand, password) 
    VALUES ('Business1', 'Brand1', 'password1');`,
@@ -43,10 +42,13 @@ const discountExprs = [
 
 const allExprs = [ ...businessExprs, ...locationExprs, ...customerExprs, ...businessUserExprs, ...discountExprs];
 
-// Create the SQL file with all the generated INSERT statements
-const sqlContent = `
-${allExprs.join('\n--DO NOT TOUCH THIS LINE\n')}
-`;
 
-writeFileSync('./sql/fake_data.sql', sqlContent);
+export const gen_data = (db) => {
+    for(const expr of allExprs) {
+        const stmt = db.prepare(expr);
+        db.transaction(() => {
+            stmt.run();
+        })();
+    }
+}
 

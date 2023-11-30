@@ -30,7 +30,10 @@ Business and their employees should be able to manage their databases in an effi
 npm install
 node .
 ```
-
+## Fake data
+- Run our application as above.
+- When prompted, select the gen option to create fake data.
+- Then, rerun the application, trying to login
 
 ## TESTS: 
 
