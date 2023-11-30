@@ -50,5 +50,6 @@ export const gen_data = (db) => {
             stmt.run();
         })();
     }
+    db.close();
 }
 

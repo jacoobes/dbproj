@@ -6,6 +6,7 @@ import { readSqlAndInit } from "./tools.js";
 if(existsSync('./database/test.db')) {
     rmSync("./database/test.db");
 }
+
 const db = new Database('./database/test.db');
 db.pragma('journal_mode = WAL');
 
@@ -68,3 +69,4 @@ const run_all = db.transaction(() => {
 
 
 run_all();
+db.close()
