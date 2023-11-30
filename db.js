@@ -6,6 +6,7 @@ import DiscountManager from './discount_manager.js'
 import Database from "better-sqlite3";
 import { SqliteDialect, Kysely } from "kysely";
 import { readSqlAndInit } from "./tools.js";
+import init_tables from "./init_tables.js";
 
 export const initiate = async (database_location) => {
   const __sqlitedb = new Database(database_location);
@@ -14,7 +15,7 @@ export const initiate = async (database_location) => {
       database: __sqlitedb,
     }),
   });
-  await readSqlAndInit(__sqlitedb, "./sql/create_tables.sql");
+  await readSqlAndInit(__sqlitedb, init_tables);
 
   return {
     customer: CustomerManager(db),

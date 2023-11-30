@@ -2,7 +2,7 @@ import  Database from "better-sqlite3";
 import { readFile } from 'fs/promises'
 import { existsSync, rmSync } from "fs";
 import { readSqlAndInit } from "./tools.js";
-
+import create_tables from './init_tables.js'
 if(existsSync('./database/test.db')) {
     rmSync("./database/test.db");
 }
@@ -10,7 +10,7 @@ if(existsSync('./database/test.db')) {
 const db = new Database('./database/test.db');
 db.pragma('journal_mode = WAL');
 
-await readSqlAndInit(db, "./sql/create_tables.sql");
+await readSqlAndInit(db, create_tables);
 console.log('Tables created successfully.');
         
 const queries = [
